@@ -10,15 +10,21 @@ class MailApplication(tk.Tk):
         self.login_button = tk.Button(self, text="Login", command=self.show_login_screen)
         self.inbox_button = tk.Button(self, text="Inbox", command=self.show_inbox)
         self.compose_button = tk.Button(self, text="Compose", command=self.show_compose)
+        self.search_button = tk.Button(self, text="Search", command=self.show_search_screen)
+        self.folders_button = tk.Button(self, text="Folders", command=self.show_folders_screen)
 
         # Pack UI components
         self.login_button.pack()
         self.inbox_button.pack()
         self.compose_button.pack()
+        self.search_button.pack()
+        self.folders_button.pack()
 
-        # Hide inbox and compose buttons initially
+        # Hide inbox, compose, search, and folders buttons initially
         self.inbox_button.pack_forget()
         self.compose_button.pack_forget()
+        self.search_button.pack_forget()
+        self.folders_button.pack_forget()
 
         # Variables to store email data
         self.emails = []
@@ -53,6 +59,8 @@ class MailApplication(tk.Tk):
         self.login_button.pack_forget()
         self.inbox_button.pack()
         self.compose_button.pack()
+        self.search_button.pack()
+        self.folders_button.pack()
 
     def show_inbox(self):
         # Clear any existing email widgets
@@ -138,6 +146,41 @@ class MailApplication(tk.Tk):
     def send_mail(self, recipient, subject, content):
         # Logic to send the composed email
         messagebox.showinfo("Compose Mail", "Mail sent successfully!")
+
+    def show_search_screen(self):
+        # Create search screen
+        search_screen = tk.Toplevel(self)
+        search_screen.title("Search")
+
+        search_label = tk.Label(search_screen, text="Search:")
+        search_entry = tk.Entry(search_screen)
+        search_button = tk.Button(search_screen, text="Search", command=lambda: self.search_emails(search_entry.get()))
+
+        # Pack search screen components
+        search_label.pack()
+        search_entry.pack()
+        search_button.pack()
+
+    def search_emails(self, keyword):
+        # Logic to search and display emails based on the given keyword
+        messagebox.showinfo("Search", f"Searching emails for: {keyword}")
+
+    def show_folders_screen(self):
+        # Create folders screen
+        folders_screen = tk.Toplevel(self)
+        folders_screen.title("Folders")
+
+        # Logic to fetch and display folders
+        folders = self.fetch_folders()
+
+        # Create folder widgets
+        for folder in folders:
+            folder_label = tk.Label(folders_screen, text=folder)
+            folder_label.pack()
+
+    def fetch_folders(self):
+        # Logic to fetch and return folder names
+        return ["Inbox", "Sent", "Drafts", "Spam", "Trash"]
 
     def clear_email_widgets(self):
         # Clear email widgets from the inbox screen
